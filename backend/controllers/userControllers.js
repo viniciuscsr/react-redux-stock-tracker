@@ -14,8 +14,6 @@ const authUser = asyncHandler(async (req, res) => {
 
   const match = await bcrypt.compare(password, user.rows[0].password);
 
-  console.log(user.rows[0]);
-
   if (user.rows && match) {
     res.json({
       _id: user.rows[0].id,
@@ -41,8 +39,6 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [
     email,
   ]);
-
-  console.log(userExists);
 
   if (userExists.rows[0]) {
     res.status(400);
