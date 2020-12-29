@@ -2,12 +2,16 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userLoginReducer, userSignUpReducer } from './reducers/userReducers';
-import { stockTransactionCreateReducer } from './reducers/stockReducers';
+import {
+  stockTransactionCreateReducer,
+  stockPortifolioReducer,
+} from './reducers/stockReducers';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userSignUp: userSignUpReducer,
   stockTransactionCreate: stockTransactionCreateReducer,
+  stockPortifolio: stockPortifolioReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
