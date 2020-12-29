@@ -1,8 +1,19 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../actions/userActions';
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+    history.push('/');
+  };
+
   return (
     <header>
       <Navbar bg='primary' variant='dark' expand='lg'>
@@ -36,8 +47,8 @@ const Header = () => {
                   Something
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href='#action/3.4'>
-                  Separated link
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>

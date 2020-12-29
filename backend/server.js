@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const userRoutes = require('./routes/userRoutes');
+const stockRoutes = require('./routes/stockRoutes');
 
 dotenv.config();
 if (process.env.NODE_ENV === 'development') {
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/stocks', stockRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

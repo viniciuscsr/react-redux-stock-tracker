@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import CreateTransactionScreen from './screens/CreateTransactionScreen';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path='/' component={HomeScreen} exact />
             <Route path='/login' component={LoginScreen} />
             <Route path='/signup' component={SignUpScreen} />
+            <Route path='/portifolio/new' component={CreateTransactionScreen} />
           </Switch>
         </Container>
       </main>
