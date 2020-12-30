@@ -3,15 +3,21 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userLoginReducer, userSignUpReducer } from './reducers/userReducers';
 import {
-  stockTransactionCreateReducer,
-  stockPortifolioReducer,
-} from './reducers/stockReducers';
+  transactionCreateReducer,
+  transactionPortifolioReducer,
+  transactionUpdateReducer,
+  transactionDeleteReducer,
+  transactionDetailsReducer,
+} from './reducers/transactionReducers';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userSignUp: userSignUpReducer,
-  stockTransactionCreate: stockTransactionCreateReducer,
-  stockPortifolio: stockPortifolioReducer,
+  transactionCreate: transactionCreateReducer,
+  transactionPortifolio: transactionPortifolioReducer,
+  transactionUpdate: transactionUpdateReducer,
+  transactionDelete: transactionDeleteReducer,
+  transactionDetails: transactionDetailsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

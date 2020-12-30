@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Form, Button, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTransaction } from '../actions/transactionActions';
+import {
+  updateTransaction,
+  detailTransaction,
+} from '../actions/transactionActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { TRANSACTION_CREATE_RESET } from '../constants/transactionConstants';
+import { TRANSACTION_UPDATE_RESET } from '../constants/transactionConstants';
 
-const CreateTransactionScreen = ({ history }) => {
+const UpdateTransactionScreen = ({ history, match }) => {
   const [symbol, setSymbol] = useState('');
   const [shares, setShares] = useState('');
   const [avgPrice, setAvgPrice] = useState('');
@@ -14,19 +17,38 @@ const CreateTransactionScreen = ({ history }) => {
 
   const dispatch = useDispatch();
 
-  const transactionCreate = useSelector((state) => state.transactionCreate);
-  const { loading, success, error } = transactionCreate;
+  const { transactionId } = match.params;
+
+  const transactionUpdate = useSelector((state) => state.transactionUpdate);
+  const { loading, success, error } = transactionUpdate;
+
+  const transactionDetails = useSelector((state) => state.transactionDetails);
+  const {
+    loading: loadingDetails,
+    transaction,
+    error: errorDetails,
+  } = transactionDetails;
 
   useEffect(() => {
     if (success) {
-      dispatch({ type: TRANSACTION_CREATE_RESET });
-      history.goBack();
+      dispatch({ type: TRANSACTION_UPDATE_RESET });
+      history.push(`/stocks/${transaction.symbol}`);
+    } else {
+      if (!transaction.symbol) {
+        dispatch(detailTransaction(transactionId));
+        console.log(transaction.symbol);
+      } else {
+        setSymbol(transaction.symbol);
+        setShares(transaction.shares);
+        setAvgPrice(transaction.avg_price);
+        setType(transaction.type);
+      }
     }
-  }, [success, history, dispatch]);
+  }, [success, history, dispatch, transaction, transactionId]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createTransaction({ symbol, shares, avgPrice, type }));
+    dispatch(updateTransaction(transactionId, { shares, avgPrice, type }));
   };
 
   return (
@@ -36,11 +58,14 @@ const CreateTransactionScreen = ({ history }) => {
           <h1>Create New Transaction</h1>
           {error && <Message>{error}</Message>}
           {loading && <Loader />}
+          {errorDetails && <Message>{errorDetails}</Message>}
+          {loadingDetails && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='symbol'>
               <Form.Label>Symbol</Form.Label>
               <Form.Control
                 type='text'
+                disabled
                 placeholder='Stock Symbol'
                 value={symbol}
                 onChange={(e) => setSymbol(e.target.value)}></Form.Control>
@@ -94,4 +119,4 @@ const CreateTransactionScreen = ({ history }) => {
   );
 };
 
-export default CreateTransactionScreen;
+export default UpdateTransactionScreen;

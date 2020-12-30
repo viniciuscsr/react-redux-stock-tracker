@@ -66,4 +66,73 @@ const getPortifolio = asyncHandler(async (req, res) => {
   res.json(portifolio);
 });
 
-module.exports = { createTransaction, getPortifolio };
+//@desc update transaction
+//@route PUT /api/stocks/:transactionId
+//@access private
+
+const updateTransaction = asyncHandler(async (req, res) => {
+  const { transactionId } = req.params;
+  const { shares, avgPrice, type } = req.body;
+
+  const transaction = await pool.query(
+    'UPDATE portifolio SET shares=($1), avg_price=($2), type=($3) WHERE transactionid=($4)',
+    [shares, avgPrice, type, transactionId]
+  );
+
+  console.log(transaction);
+
+  if (transaction.rowCount) {
+    res.json({ success: true });
+  } else {
+    res.status(404);
+    throw new Error('Transaction not found');
+  }
+});
+
+//@desc delete transaction
+//@route DELETE /api/stocks/:transactionId
+//@access private
+
+const deleteTransaction = asyncHandler(async (req, res) => {
+  const { transactionId } = req.params;
+
+  const transaction = await pool.query(
+    'DELETE FROM portifolio WHERE transactionid=($1)',
+    [transactionId]
+  );
+
+  if (transaction.rowCount) {
+    res.json({ success: true });
+  } else {
+    res.status(404);
+    throw new Error('Transaction not found');
+  }
+});
+
+//@desc get transaction by id
+//@route GET /api/stocks/:transactionId
+//@access private
+
+const getTransaction = asyncHandler(async (req, res) => {
+  const { transactionId } = req.params;
+
+  const transaction = await pool.query(
+    'SELECT * FROM portifolio WHERE transactionid=($1)',
+    [transactionId]
+  );
+
+  if (transaction.rowCount) {
+    res.json(transaction.rows[0]);
+  } else {
+    res.status(404);
+    throw new Error('Transaction not found');
+  }
+});
+
+module.exports = {
+  createTransaction,
+  getPortifolio,
+  updateTransaction,
+  deleteTransaction,
+  getTransaction,
+};

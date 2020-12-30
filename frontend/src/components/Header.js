@@ -2,12 +2,15 @@ import React from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../actions/userActions';
 
 const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const logoutHandler = () => {
     dispatch(logoutUser());
@@ -23,34 +26,35 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='mr-auto'>
-              <LinkContainer to='/portifolio'>
-                <Nav.Link href='/portifolio'>Portifolio</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to='/portifolio/new'>
-                <Nav.Link href='/portifolio/new'>Add Transaction</Nav.Link>
-              </LinkContainer>
-            </Nav>
+            {userInfo && (
+              <Nav className='mr-auto'>
+                <LinkContainer to='/portifolio'>
+                  <Nav.Link href='/portifolio'>Portifolio</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/portifolio/new'>
+                  <Nav.Link href='/portifolio/new'>Add Transaction</Nav.Link>
+                </LinkContainer>
+              </Nav>
+            )}
             <Nav className='ml-auto'>
-              <LinkContainer to='/login'>
-                <Nav.Link href='/login'>Login</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to='/signup'>
-                <Nav.Link href='/signup'>Sign Up</Nav.Link>
-              </LinkContainer>
-              <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-                <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.2'>
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.3'>
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logoutHandler}>
-                  Logout
-                </NavDropdown.Item>
-              </NavDropdown>
+              {!userInfo ? (
+                <>
+                  <LinkContainer to='/login'>
+                    <Nav.Link href='/login'>Login</Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to='/signup'>
+                    <Nav.Link href='/signup'>Sign Up</Nav.Link>
+                  </LinkContainer>
+                </>
+              ) : (
+                <>
+                  <NavDropdown title={userInfo.name} id='basic-nav-dropdown'>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

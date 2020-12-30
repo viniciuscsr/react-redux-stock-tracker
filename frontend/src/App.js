@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import CreateTransactionScreen from './screens/CreateTransactionScreen';
 import PortifolioScreen from './screens/PortifolioScreen';
+import UpdateTransactionScreen from './screens/UpdateTransactionScreen';
 
 const App = () => {
   return (
@@ -21,6 +22,10 @@ const App = () => {
             <Route path='/signup' component={SignUpScreen} />
             <Route path='/portifolio/new' component={CreateTransactionScreen} />
             <Route path='/portifolio/' component={PortifolioScreen} />
+            <Route
+              path='/transaction/:transactionId/edit'
+              component={UpdateTransactionScreen}
+            />
           </Switch>
         </Container>
       </main>

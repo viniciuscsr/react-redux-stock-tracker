@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Button, Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getPortifolio } from '../actions/stockActions';
+import { getPortifolio } from '../actions/transactionActions';
 
 const PortifolioScreen = () => {
   const dispatch = useDispatch();
 
-  const stockPortifolio = useSelector((state) => state.stockPortifolio);
-  const { loading, portifolio, error } = stockPortifolio;
+  const transactionPortifolio = useSelector(
+    (state) => state.transactionPortifolio
+  );
+  const { loading, portifolio, error } = transactionPortifolio;
 
   useEffect(() => {
     dispatch(getPortifolio());
