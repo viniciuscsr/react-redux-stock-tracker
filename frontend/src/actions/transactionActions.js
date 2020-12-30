@@ -96,7 +96,11 @@ export const updateTransaction = (transactionId, transaction) => async (
       },
     };
 
-    await axios.put(`/api/stocks/${transactionId}`, transaction, config);
+    await axios.put(
+      `/api/stocks/transactions/${transactionId}`,
+      transaction,
+      config
+    );
 
     dispatch({ type: TRANSACTION_UPDATE_SUCCESS });
   } catch (error) {
@@ -128,7 +132,7 @@ export const deleteTransaction = (transactionId) => async (
       },
     };
 
-    await axios.delete(`/api/stocks/${transactionId}`, config);
+    await axios.delete(`/api/stocks/transactions/${transactionId}`, config);
 
     dispatch({ type: TRANSACTION_DELETE_SUCCESS });
   } catch (error) {
@@ -160,7 +164,10 @@ export const detailTransaction = (transactionId) => async (
       },
     };
 
-    const { data } = await axios.get(`/api/stocks/${transactionId}`, config);
+    const { data } = await axios.get(
+      `/api/stocks/transactions/${transactionId}`,
+      config
+    );
 
     dispatch({ type: TRANSACTION_DETAILS_SUCCESS, payload: data });
   } catch (error) {

@@ -8,6 +8,7 @@ const {
   updateTransaction,
   deleteTransaction,
   getTransaction,
+  getStockData,
 } = require('../controllers/stockControllers');
 
 router
@@ -16,9 +17,11 @@ router
   .get(isLoggedIn, getPortifolio);
 
 router
-  .route('/:transactionId')
+  .route('/transactions/:transactionId')
   .put(isLoggedIn, updateTransaction)
   .delete(isLoggedIn, deleteTransaction)
   .get(isLoggedIn, getTransaction);
+
+router.route('/:symbol').get(isLoggedIn, getStockData);
 
 module.exports = router;

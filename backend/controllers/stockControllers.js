@@ -8,10 +8,6 @@ const axios = require('axios');
 
 const createTransaction = asyncHandler(async (req, res) => {
   const { symbol, shares, avgPrice, type } = req.body;
-  // Reversing the shares sign if equals to sell
-  // if (type === 'sell') {
-  //   shares = shares * -1;
-  // }
   // Inserting transaction into the db
   await pool.query(
     'INSERT INTO portifolio(symbol, shares, avg_price, userid, type) VALUES($1, $2, $3, $4, $5)',
@@ -67,7 +63,7 @@ const getPortifolio = asyncHandler(async (req, res) => {
 });
 
 //@desc update transaction
-//@route PUT /api/stocks/:transactionId
+//@route PUT /api/stocks/transactions/:transactionId
 //@access private
 
 const updateTransaction = asyncHandler(async (req, res) => {
@@ -90,7 +86,7 @@ const updateTransaction = asyncHandler(async (req, res) => {
 });
 
 //@desc delete transaction
-//@route DELETE /api/stocks/:transactionId
+//@route DELETE /api/stocks/transactions/:transactionId
 //@access private
 
 const deleteTransaction = asyncHandler(async (req, res) => {
@@ -110,7 +106,7 @@ const deleteTransaction = asyncHandler(async (req, res) => {
 });
 
 //@desc get transaction by id
-//@route GET /api/stocks/:transactionId
+//@route GET /api/stocks/transactions/:transactionId
 //@access private
 
 const getTransaction = asyncHandler(async (req, res) => {
@@ -129,10 +125,60 @@ const getTransaction = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc get transactions by symbol
+//@route GET /api/stocks/:symbol
+//@access private
+
+const getStockData = asyncHandler(async (req, res) => {
+  const symbol = req.params.symbol.toUpperCase();
+  const userId = req.user.id;
+
+  const price = await axios.get(
+    `https://api.tiingo.com/tiingo/daily/${symbol}/prices?token=${process.env.TIINGO_TOKEN}`
+  );
+
+  const news = await axios.get(
+    `https://newsapi.org/v2/everything?q=${symbol}&language=en&domains=finance.yahoo.com,fool.com,cnbc.com,investors.com&apiKey=${process.env.NEWS_API_KEY}`
+  );
+
+  const transactions = await pool.query(
+    'SELECT * FROM portifolio WHERE userid=$1 AND symbol=$2',
+    [userId, symbol]
+  );
+
+  if (!transactions.rowCount) {
+    res.status(404);
+    throw new Error('Transaction not found');
+  }
+
+  const buyShares = await pool.query(
+    'SELECT SUM (shares) AS total FROM portifolio WHERE userid=$1 AND symbol=$2 AND type=$3',
+    [userId, symbol, 'buy']
+  );
+
+  const sellShares = await pool.query(
+    'SELECT SUM (shares) AS total FROM portifolio WHERE userid=$1 AND symbol=$2 AND type=$3',
+    [userId, symbol, 'sell']
+  );
+
+  const totalShares = buyShares.rows[0].total - sellShares.rows[0].total;
+
+  const stockData = {
+    symbol,
+    price: price.data[0].adjClose,
+    news: news.data.articles,
+    transactions: transactions.rows,
+    totalShares,
+  };
+
+  res.json(stockData);
+});
+
 module.exports = {
   createTransaction,
   getPortifolio,
   updateTransaction,
   deleteTransaction,
   getTransaction,
+  getStockData,
 };
