@@ -20,9 +20,9 @@ const CreateTransactionScreen = ({ history }) => {
   useEffect(() => {
     if (success) {
       dispatch({ type: TRANSACTION_CREATE_RESET });
-      history.goBack();
+      history.push(`/stock/${symbol}`);
     }
-  }, [success, history, dispatch]);
+  }, [success, history, dispatch, symbol]);
 
   const submitHandler = (e) => {
     e.preventDefault();

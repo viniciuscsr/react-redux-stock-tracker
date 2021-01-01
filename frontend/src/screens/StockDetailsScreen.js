@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Table, Card, CardColumns } from 'react-bootstrap';
+import {
+  Button,
+  Table,
+  Card,
+  CardColumns,
+  Row,
+  Col,
+  Container,
+} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -8,9 +16,8 @@ import {
   listTransactions,
   deleteTransaction,
 } from '../actions/transactionActions';
-import { TRANSACTION_DETAILS_RESET } from '../constants/transactionConstants';
 
-const StockDetailsScreen = ({ match, history }) => {
+const StockDetailsScreen = ({ match }) => {
   const { symbol } = match.params;
 
   const dispatch = useDispatch();
@@ -37,28 +44,26 @@ const StockDetailsScreen = ({ match, history }) => {
       {error && <Message>{error}</Message>}
       {data.id && (
         <>
-          <h2>Summary</h2>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Total Shares</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{data.symbol}</td>
-                <td>{data.totalShares}</td>
-                <td>{data.price}</td>
-              </tr>
-            </tbody>
-          </Table>
+          <h1 className='text-center'>{data.symbol}</h1>
+          <Row className='my-5'>
+            <Col>
+              <div className='text-center border border-success mx-5 rounded'>
+                <p>Price</p>
+                <h3>${data.price}</h3>
+              </div>
+            </Col>
+            <Col>
+              <div className='text-center border border-success mx-5 rounded'>
+                <p>Total Shares</p>
+                <h3>{data.totalShares}</h3>
+              </div>
+            </Col>
+          </Row>
           <h2>Transactions</h2>
           {data.transactions.length ? (
             <Table striped bordered hover responsive className='table-sm'>
               <thead>
-                <tr>
+                <tr className='table-primary'>
                   <th>Symbol</th>
                   <th>Shares</th>
                   <th>Price</th>

@@ -20,7 +20,7 @@ const PortifolioScreen = () => {
 
   return (
     <>
-      <h1>Portifolio</h1>
+      <h1>My Portifolio</h1>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -28,7 +28,7 @@ const PortifolioScreen = () => {
       ) : (
         <Table striped bordered hover responsive className='table-sm'>
           <thead>
-            <tr>
+            <tr className='table-primary'>
               <th>Symbol</th>
               <th>Total Shares</th>
               <th>Price</th>
@@ -38,12 +38,16 @@ const PortifolioScreen = () => {
           <tbody>
             {portifolio.map((stock) => (
               <tr key={stock.id}>
-                <td>{stock.symbol}</td>
+                <td>
+                  <LinkContainer to={`/stock/${stock.symbol}`}>
+                    <a href='#'>{stock.symbol}</a>
+                  </LinkContainer>
+                </td>
                 <td>{stock.totalShares}</td>
                 <td>{stock.price}</td>
                 <td>
                   <LinkContainer to={`/stock/${stock.symbol}`}>
-                    <Button variant='light' className='btn-sm'>
+                    <Button variant='success' className='ml-2 btn-sm'>
                       Details
                     </Button>
                   </LinkContainer>

@@ -86,8 +86,6 @@ const updateTransaction = asyncHandler(async (req, res) => {
     [shares, avgPrice, type, transactionId]
   );
 
-  console.log(transaction);
-
   if (transaction.rowCount) {
     res.json({ success: true });
   } else {
