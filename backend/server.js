@@ -25,7 +25,7 @@ app.use('/api/stocks', stockRoutes);
 
 const folder = path.resolve();
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(folder, '/frontend/build')));
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(folder, 'frontend', 'build', 'index.html'))
