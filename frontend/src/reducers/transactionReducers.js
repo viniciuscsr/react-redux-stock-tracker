@@ -16,6 +16,10 @@ import {
   TRANSACTION_DETAILS_SUCCESS,
   TRANSACTION_DETAILS_FAIL,
   TRANSACTION_UPDATE_RESET,
+  TRANSACTION_LIST_REQUEST,
+  TRANSACTION_LIST_SUCCESS,
+  TRANSACTION_LIST_FAIL,
+  TRANSACTION_DETAILS_RESET,
 } from '../constants/transactionConstants';
 
 export const transactionCreateReducer = (state = {}, action) => {
@@ -87,6 +91,21 @@ export const transactionDetailsReducer = (
     case TRANSACTION_DETAILS_SUCCESS:
       return { loading: false, transaction: action.payload };
     case TRANSACTION_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    case TRANSACTION_DETAILS_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const transactionListReducer = (state = { data: {} }, action) => {
+  switch (action.type) {
+    case TRANSACTION_LIST_REQUEST:
+      return { loading: true, ...state };
+    case TRANSACTION_LIST_SUCCESS:
+      return { loading: false, data: action.payload };
+    case TRANSACTION_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

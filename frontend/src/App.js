@@ -9,6 +9,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import CreateTransactionScreen from './screens/CreateTransactionScreen';
 import PortifolioScreen from './screens/PortifolioScreen';
 import UpdateTransactionScreen from './screens/UpdateTransactionScreen';
+import StockDetailsScreen from './screens/StockDetailsScreen';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
               path='/transaction/:transactionId/edit'
               component={UpdateTransactionScreen}
             />
+            <Route path='/stock/:symbol' component={StockDetailsScreen} />
           </Switch>
         </Container>
       </main>

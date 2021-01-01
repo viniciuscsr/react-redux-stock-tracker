@@ -8,6 +8,7 @@ import {
   transactionUpdateReducer,
   transactionDeleteReducer,
   transactionDetailsReducer,
+  transactionListReducer,
 } from './reducers/transactionReducers';
 
 const reducer = combineReducers({
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   transactionUpdate: transactionUpdateReducer,
   transactionDelete: transactionDeleteReducer,
   transactionDetails: transactionDetailsReducer,
+  transactionList: transactionListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const pool = require('../config/db');
 const axios = require('axios');
+const { v4: uuidv4 } = require('uuid');
 
 //@desc New transaction
 //@route POST /api/stocks/
@@ -8,13 +9,22 @@ const axios = require('axios');
 
 const createTransaction = asyncHandler(async (req, res) => {
   const { symbol, shares, avgPrice, type } = req.body;
-  // Inserting transaction into the db
-  await pool.query(
-    'INSERT INTO portifolio(symbol, shares, avg_price, userid, type) VALUES($1, $2, $3, $4, $5)',
-    [symbol, shares, avgPrice, req.user.id, type]
-  );
 
-  res.json({ success: true });
+  try {
+    await axios.get(
+      `https://api.tiingo.com/tiingo/daily/${symbol}/prices?token=${process.env.TIINGO_TOKEN}`
+    );
+    await pool.query(
+      'INSERT INTO portifolio(symbol, shares, avg_price, userid, type) VALUES($1, $2, $3, $4, $5)',
+      [symbol, shares, avgPrice, req.user.id, type]
+    );
+
+    res.json({ success: true });
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.detail);
+    }
+  }
 });
 
 //@desc get portifolio data
@@ -52,6 +62,7 @@ const getPortifolio = asyncHandler(async (req, res) => {
     );
 
     let stock = {
+      id: uuidv4(),
       symbol: stocks.rows[i].symbol,
       totalShares,
       price: stockPrice.data[0].adjClose,
@@ -146,11 +157,6 @@ const getStockData = asyncHandler(async (req, res) => {
     [userId, symbol]
   );
 
-  if (!transactions.rowCount) {
-    res.status(404);
-    throw new Error('Transaction not found');
-  }
-
   const buyShares = await pool.query(
     'SELECT SUM (shares) AS total FROM portifolio WHERE userid=$1 AND symbol=$2 AND type=$3',
     [userId, symbol, 'buy']
@@ -164,6 +170,7 @@ const getStockData = asyncHandler(async (req, res) => {
   const totalShares = buyShares.rows[0].total - sellShares.rows[0].total;
 
   const stockData = {
+    id: uuidv4(),
     symbol,
     price: price.data[0].adjClose,
     news: news.data.articles,

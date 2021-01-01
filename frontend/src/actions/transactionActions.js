@@ -15,6 +15,9 @@ import {
   TRANSACTION_DETAILS_REQUEST,
   TRANSACTION_DETAILS_SUCCESS,
   TRANSACTION_DETAILS_FAIL,
+  TRANSACTION_LIST_REQUEST,
+  TRANSACTION_LIST_SUCCESS,
+  TRANSACTION_LIST_FAIL,
 } from '../constants/transactionConstants';
 
 export const createTransaction = (transaction) => async (
@@ -173,6 +176,35 @@ export const detailTransaction = (transactionId) => async (
   } catch (error) {
     dispatch({
       type: TRANSACTION_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listTransactions = (symbol) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TRANSACTION_LIST_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        ContentType: 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/stocks/${symbol}`, config);
+
+    dispatch({ type: TRANSACTION_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: TRANSACTION_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

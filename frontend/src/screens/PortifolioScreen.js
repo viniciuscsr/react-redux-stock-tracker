@@ -42,7 +42,7 @@ const PortifolioScreen = () => {
                 <td>{stock.totalShares}</td>
                 <td>{stock.price}</td>
                 <td>
-                  <LinkContainer to={`/portifolio/${stock.symbol}`}>
+                  <LinkContainer to={`/stock/${stock.symbol}`}>
                     <Button variant='light' className='btn-sm'>
                       Details
                     </Button>
