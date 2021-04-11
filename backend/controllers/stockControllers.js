@@ -179,6 +179,18 @@ const getStockData = asyncHandler(async (req, res) => {
   res.json(stockData);
 });
 
+//@desc get top headlines
+//@route GET /api/stocks/top-headlines
+//@access public
+
+const getTopHeadlines = asyncHandler(async (req, res) => {
+  const { data } = await axios.get(
+    `https://newsapi.org/v2/everything?language=en&domains=finance.yahoo.com,fool.com,cnbc.com,investors.com&sortBy=publishedAt&apiKey=${process.env.NEWS_API_KEY}`
+  );
+
+  res.json(data.articles);
+});
+
 module.exports = {
   createTransaction,
   getPortifolio,
@@ -186,4 +198,5 @@ module.exports = {
   deleteTransaction,
   getTransaction,
   getStockData,
+  getTopHeadlines,
 };

@@ -9,6 +9,7 @@ const {
   deleteTransaction,
   getTransaction,
   getStockData,
+  getTopHeadlines,
 } = require('../controllers/stockControllers');
 
 router
@@ -21,6 +22,8 @@ router
   .put(isLoggedIn, updateTransaction)
   .delete(isLoggedIn, deleteTransaction)
   .get(isLoggedIn, getTransaction);
+
+router.route('/top-headlines').get(getTopHeadlines);
 
 router.route('/:symbol').get(isLoggedIn, getStockData);
 
