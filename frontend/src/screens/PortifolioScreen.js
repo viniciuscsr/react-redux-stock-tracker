@@ -40,7 +40,7 @@ const PortifolioScreen = () => {
               <tr key={stock.id}>
                 <td>
                   <LinkContainer to={`/stock/${stock.symbol}`}>
-                    <a href='#'>{stock.symbol}</a>
+                    <a href={`/stock/${stock.symbol}`}>{stock.symbol}</a>
                   </LinkContainer>
                 </td>
                 <td>{stock.totalShares}</td>
