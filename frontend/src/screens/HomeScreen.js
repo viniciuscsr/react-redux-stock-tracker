@@ -29,120 +29,60 @@ const HomeScreen = () => {
     };
   }, []);
 
-  const sp500NominalVariation = 31.63;
-  const spPrice = 4128.8;
-
   return (
     <>
       <Row className='my-3'>
-        <IndexCard
-          symbol='S&P 500'
-          price={spPrice}
-          nominalVariation={sp500NominalVariation}
-        />
-        <IndexCard
-          symbol='S&P 500'
-          price={spPrice}
-          nominalVariation={sp500NominalVariation}
-        />
-        <IndexCard
-          symbol='S&P 500'
-          price={spPrice}
-          nominalVariation={sp500NominalVariation}
-        />
-        <IndexCard
-          symbol='S&P 500'
-          price={spPrice}
-          nominalVariation={sp500NominalVariation}
-        />
+        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
+        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
+        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
+        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
       </Row>
 
       {loading && <Loader />}
       {error && <Message>{error}</Message>}
       {articles.length > 0 && (
         <>
-          <Carousel className='carousel'>
-            <Carousel.Item>
-              <img
-                className='d-block w-100 carousel-image img-fluid'
-                src={articles[0].urlToImage}
-                alt='First slide'
-              />
-              <Carousel.Caption>
-                <a href={articles[0].url} target='_blank' rel='noreferrer'>
-                  <h3>{articles[0].title}</h3>
-                </a>
-                <p>{articles[0].description}</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className='d-block w-100 carousel-image img-fluid'
-                src={articles[1].urlToImage}
-                alt='First slide'
-              />
-              <Carousel.Caption>
-                <a href={articles[1].url} target='_blank' rel='noreferrer'>
-                  <h3>{articles[1].title}</h3>
-                </a>
-                <p>{articles[1].description}</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className='d-block w-100 carousel-image img-fluid'
-                src={articles[2].urlToImage}
-                alt='First slide'
-              />
-              <Carousel.Caption>
-                <a href={articles[2].url} target='_blank' rel='noreferrer'>
-                  <h3>{articles[2].title}</h3>
-                </a>
-                <p>{articles[2].description}</p>
-              </Carousel.Caption>
-            </Carousel.Item>
+          <Carousel className='carousel mb-3'>
+            {articles.slice(0, 3).map((article, index) => {
+              return (
+                <Carousel.Item key={index} className='carousel-item'>
+                  <div className='image-wrapper'>
+                    <div className='img-overlay'></div>
+                    <img
+                      className='d-block w-100 carousel-image img-fluid'
+                      src={article.urlToImage}
+                      alt='First slide'
+                    />
+                  </div>
+                  <Carousel.Caption className='carousel-caption'>
+                    <a href={article.url} target='_blank' rel='noreferrer'>
+                      <h3>{article.title}</h3>
+                    </a>
+                    <p>{article.description}</p>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              );
+            })}
           </Carousel>
 
           <CardGroup>
-            <Card>
-              <Card.Img
-                variant='top'
-                src={articles[3].urlToImage}
-                style={{ maxHeight: '14rem' }}
-              />
-              <Card.Body>
-                <a href={articles[3].url} target='_blank' rel='noreferrer'>
-                  <Card.Title>{articles[3].title}</Card.Title>
-                </a>
-                <Card.Text>{articles[3].description}</Card.Text>
-              </Card.Body>
-            </Card>
-            <Card>
-              <Card.Img
-                variant='top'
-                src={articles[4].urlToImage}
-                style={{ maxHeight: '14rem' }}
-              />
-              <Card.Body>
-                <a href={articles[4].url} target='_blank' rel='noreferrer'>
-                  <Card.Title>{articles[4].title}</Card.Title>
-                </a>
-                <Card.Text>{articles[4].description}</Card.Text>
-              </Card.Body>
-            </Card>
-            <Card>
-              <Card.Img
-                variant='top'
-                src={articles[5].urlToImage}
-                style={{ maxHeight: '14rem' }}
-              />
-              <Card.Body>
-                <a href={articles[5].url} target='_blank' rel='noreferrer'>
-                  <Card.Title>{articles[5].title}</Card.Title>
-                </a>
-                <Card.Text>{articles[5].description}</Card.Text>
-              </Card.Body>
-            </Card>
+            {articles.slice(3, 6).map((article, index) => {
+              return (
+                <Card>
+                  <Card.Img
+                    variant='top'
+                    src={article.urlToImage}
+                    style={{ maxHeight: '14rem' }}
+                  />
+                  <Card.Body>
+                    <a href={article.url} target='_blank' rel='noreferrer'>
+                      <Card.Title>{article.title}</Card.Title>
+                    </a>
+                    <Card.Text>{article.description}</Card.Text>
+                  </Card.Body>
+                </Card>
+              );
+            })}
           </CardGroup>
         </>
       )}

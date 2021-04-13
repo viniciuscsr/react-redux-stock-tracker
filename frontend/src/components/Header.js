@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,10 +40,17 @@ const Header = () => {
               {!userInfo ? (
                 <>
                   <LinkContainer to='/login'>
-                    <Nav.Link href='/login'>Login</Nav.Link>
+                    <Button className='mx-1' variant='success' href='/login'>
+                      Login
+                    </Button>
                   </LinkContainer>
                   <LinkContainer to='/signup'>
-                    <Nav.Link href='/signup'>Sign Up</Nav.Link>
+                    <Button
+                      className='mx-1'
+                      variant='outline-success'
+                      href='/signup'>
+                      Sign Up
+                    </Button>
                   </LinkContainer>
                 </>
               ) : (

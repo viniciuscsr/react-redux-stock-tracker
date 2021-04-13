@@ -13,6 +13,28 @@ code {
     monospace;
 }
 
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  font-size: 0;
+}
+
+.img-wrapper img {
+  width: 100%;
+}
+
+.img-overlay {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .carousel-image {
   display: block;
   max-width: 100%;
@@ -23,6 +45,8 @@ code {
 
 .carousel {
   max-height: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 .positive-performance {
@@ -35,8 +59,6 @@ code {
 
 .index-card {
   text-align: center;
-  /* border-right: 1px solid #18bc9c;
-  border-left: 1px solid #18bc9c; */
 }
 
 .index-card h5 {
@@ -46,4 +68,13 @@ code {
 .index-card-col {
   border-right: 1px solid #18bc9c;
   border-left: 1px solid #18bc9c;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 240px;
 }
