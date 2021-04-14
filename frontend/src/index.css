@@ -82,3 +82,14 @@ code {
 .get-started-header {
   text-align: center;
 }
+
+.form-control {
+  border: none;
+  border-bottom: solid 1px #ced4da;
+  background-color: transparent;
+  color: #21252a;
+}
+
+.authenication-form {
+  background-color: #ffffff;
+}

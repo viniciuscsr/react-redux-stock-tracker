@@ -33,29 +33,28 @@ const LoginScreen = ({ location, history }) => {
   return (
     <Container>
       <Row className='justify-content-md-center'>
-        <Col xs={12} md={6}>
-          <h1>Sign In</h1>
+        <Col className='border p-4 authenication-form' xs={12} md={6}>
+          <h1 className='text-center'>Sign In</h1>
           {error && <Message>{error}</Message>}
           {loading && <Loader />}
+
           <Form onSubmit={submitHandler}>
             <Form.Group controlId='email'>
-              <Form.Label>Email Address</Form.Label>
               <Form.Control
                 type='email'
-                placeholder='Enter your email address'
+                placeholder='Email address'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}></Form.Control>
             </Form.Group>
             <Form.Group controlId='password'>
-              <Form.Label>Password </Form.Label>
               <Form.Control
                 type='password'
-                placeholder='Enter your password'
+                placeholder='Password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}></Form.Control>
             </Form.Group>
-            <Button type='submit' variant='primary'>
-              Sign in
+            <Button type='submit' variant='success'>
+              Sign In
             </Button>
           </Form>
           <Row className='py-3'>
