@@ -3,7 +3,8 @@ import axios from 'axios';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import IndexCard from '../components/IndexCard';
-import { CardGroup, Card, Carousel, Row, Col } from 'react-bootstrap';
+import { CardGroup, Card, Carousel, Row, Col, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const HomeScreen = () => {
   const [articles, setArticles] = useState([]);
@@ -31,12 +32,12 @@ const HomeScreen = () => {
 
   return (
     <>
-      <Row className='my-3'>
+      {/* <Row className='my-3'>
         <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
         <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
         <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
         <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
-      </Row>
+      </Row> */}
 
       {loading && <Loader />}
       {error && <Message>{error}</Message>}
@@ -64,11 +65,18 @@ const HomeScreen = () => {
               );
             })}
           </Carousel>
-
+          <div className='get-started-header py-5 '>
+            <h1 className='py-4'>The best way to track stocks</h1>
+            <LinkContainer to='/signup'>
+              <Button variant='success' size='lg'>
+                Get Started
+              </Button>
+            </LinkContainer>
+          </div>
           <CardGroup>
             {articles.slice(3, 6).map((article, index) => {
               return (
-                <Card>
+                <Card key={index}>
                   <Card.Img
                     variant='top'
                     src={article.urlToImage}

@@ -22,7 +22,16 @@ const Header = () => {
       <Navbar bg='primary' variant='dark' expand='lg'>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand href='/'>Stock Tracker</Navbar.Brand>
+            <div>
+              <img
+                src='/chartlogo.png'
+                width='30'
+                height='30'
+                className='d-inline-block align-top mr-3 '
+                alt='stock tracker logo'
+              />
+              <Navbar.Brand href='/'>Stock Tracker</Navbar.Brand>
+            </div>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
