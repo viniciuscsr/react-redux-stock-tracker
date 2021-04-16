@@ -2,7 +2,12 @@ import React from 'react';
 import { Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const IndexCard = ({ symbol, price, nominalVariation }) => {
+const IndexCard = ({
+  symbol,
+  price,
+  nominalVariation,
+  percentagePriceVariation,
+}) => {
   return (
     <Col xs={12} md={6} lg={3} className='index-card-col'>
       <div className='index-card'>
@@ -13,17 +18,19 @@ const IndexCard = ({ symbol, price, nominalVariation }) => {
         </LinkContainer>
         <div>
           <h5 className='mx-2'>{price}</h5>
-          <h5 className='mx-2'>
+          <h6 className='mx-2'>
             {nominalVariation > 0 ? (
               <span className='positive-performance'>
-                {'+' + nominalVariation} <i className='fas fa-caret-up'></i>
+                {'+' + nominalVariation} <i className='fas fa-caret-up'></i>{' '}
+                {'(' + percentagePriceVariation + '%' + ')'}
               </span>
             ) : (
               <span className='negative-performance'>
                 {nominalVariation} <i className='fas fa-caret-down'></i>{' '}
+                {'(' + percentagePriceVariation + '%' + ')'}
               </span>
             )}
-          </h5>
+          </h6>
         </div>
       </div>
     </Col>

@@ -5,39 +5,46 @@ import Message from '../components/Message';
 import IndexCard from '../components/IndexCard';
 import { CardGroup, Card, Carousel, Row, Col, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import useRequest from '../hooks/useRequest';
 
 const HomeScreen = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  // const [marketSummary, setMarketSummary] = useState([]);
+  // const [marketLoading, setMarketLoading] = useState(false);
+  // const [marketError, setMarketError] = useState(false);
 
-  useEffect(() => {
-    let ignore = false;
-    const fetchArticles = async () => {
-      setLoading(true);
-      try {
-        setError(false);
-        const response = await axios.get(`/api/stocks/top-headlines`);
-        if (!ignore) setArticles(response.data);
-      } catch (err) {
-        setError('Something went wrong');
-      }
-      setLoading(false);
-    };
-    fetchArticles();
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const { data: articles, loading, error } = useRequest(
+    '/api/stocks/top-headlines'
+  );
+
+  const {
+    data: marketSummary,
+    loading: marketLoading,
+    error: marketError,
+  } = useRequest('/api/stocks/market-summary');
 
   return (
     <>
-      {/* <Row className='my-3'>
-        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
-        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
-        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
-        <IndexCard symbol='S&P 500' price='4128.80' nominalVariation='31.63' />
-      </Row> */}
+      <Row className='mb-3'>
+        {marketLoading && <Loader />}
+        {marketError && <Message>{error}</Message>}
+        {marketSummary.length > 0 && (
+          <>
+            {marketSummary.slice(0, 4).map((stock, index) => {
+              return (
+                <IndexCard
+                  key={index}
+                  symbol={stock.symbol}
+                  price={stock.price.toFixed(2)}
+                  nominalVariation={stock.nominalPriceVariation.toFixed(2)}
+                  percentagePriceVariation={stock.percentagePriceVariation.toFixed(
+                    2
+                  )}
+                />
+              );
+            })}
+          </>
+        )}
+      </Row>
 
       {loading && <Loader />}
       {error && <Message>{error}</Message>}
