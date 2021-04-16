@@ -191,6 +191,38 @@ const getTopHeadlines = asyncHandler(async (req, res) => {
   res.json(data.articles);
 });
 
+const getMarketSummary = asyncHandler(async (req, res) => {
+  const symbols = 'aapl,fb,tsla,shop';
+
+  const { data: intradayData } = await axios.get(
+    `https://cloud.iexapis.com/stable/tops?token=${process.env.IEX_CLOUD_TOKEN}&symbols=${symbols}`
+  );
+
+  const { data: previousDayData } = await axios.get(
+    `https://cloud.iexapis.com/stable/stock/market/previous?token=${process.env.IEX_CLOUD_TOKEN}&symbols=${symbols}`
+  );
+
+  let marketSummary = [];
+
+  for (let i = 0; i < intradayData.length; i++) {
+    let stockData = {
+      symbol: intradayData[i].symbol,
+      price: intradayData[i].lastSalePrice,
+      previousDayPrice: previousDayData[i].close,
+      nominalPriceVariation:
+        intradayData[i].lastSalePrice - previousDayData[i].close,
+      percentagePriceVariation:
+        ((intradayData[i].lastSalePrice - previousDayData[i].close) /
+          previousDayData[i].close) *
+        100,
+    };
+
+    marketSummary.push(stockData);
+  }
+
+  res.json(marketSummary);
+});
+
 module.exports = {
   createTransaction,
   getPortifolio,
@@ -199,4 +231,5 @@ module.exports = {
   getTransaction,
   getStockData,
   getTopHeadlines,
+  getMarketSummary,
 };

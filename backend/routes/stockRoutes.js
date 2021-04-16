@@ -10,6 +10,7 @@ const {
   getTransaction,
   getStockData,
   getTopHeadlines,
+  getMarketSummary,
 } = require('../controllers/stockControllers');
 
 router
@@ -24,6 +25,7 @@ router
   .get(isLoggedIn, getTransaction);
 
 router.route('/top-headlines').get(getTopHeadlines);
+router.route('/market-summary').get(getMarketSummary);
 
 router.route('/:symbol').get(isLoggedIn, getStockData);
 
