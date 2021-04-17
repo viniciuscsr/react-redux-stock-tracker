@@ -4,6 +4,7 @@ import { Button, Table, Card, CardColumns, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import TradingViewWidget from 'react-tradingview-widget';
 import {
   listTransactions,
   deleteTransaction,
@@ -37,6 +38,13 @@ const StockDetailsScreen = ({ match }) => {
       {data.id && (
         <>
           <h1 className='text-center'>{data.symbol}</h1>
+          <Row>
+            <TradingViewWidget
+              className='trading-view-graph'
+              symbol={symbol}
+              style='2'
+            />
+          </Row>
           <Row className='my-5'>
             <Col>
               <div className='text-center border border-success mx-5 rounded'>

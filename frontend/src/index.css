@@ -93,3 +93,7 @@ code {
 .authenication-form {
   background-color: #ffffff;
 }
+
+.row article {
+  width: 100%;
+}

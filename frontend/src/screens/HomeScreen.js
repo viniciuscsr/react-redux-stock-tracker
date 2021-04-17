@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import IndexCard from '../components/IndexCard';
-import { CardGroup, Card, Carousel, Row, Col, Button } from 'react-bootstrap';
+import { CardGroup, Card, Carousel, Row, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import useRequest from '../hooks/useRequest';
 
 const HomeScreen = () => {
-  // const [marketSummary, setMarketSummary] = useState([]);
-  // const [marketLoading, setMarketLoading] = useState(false);
-  // const [marketError, setMarketError] = useState(false);
-
   const { data: articles, loading, error } = useRequest(
     '/api/stocks/top-headlines'
   );
