@@ -11,7 +11,7 @@ const IndexCard = ({
   return (
     <Col xs={12} md={6} lg={3} className='index-card-col'>
       <div className='index-card'>
-        <LinkContainer to='/'>
+        <LinkContainer to={`/stock/${symbol}`}>
           <a href='/' className='symbol-link'>
             {symbol}
           </a>

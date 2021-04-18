@@ -146,10 +146,6 @@ const getStockData = asyncHandler(async (req, res) => {
     `https://api.tiingo.com/tiingo/daily/${symbol}/prices?token=${process.env.TIINGO_TOKEN}`
   );
 
-  const news = await axios.get(
-    `https://newsapi.org/v2/everything?q=${symbol}&language=en&domains=finance.yahoo.com,fool.com,cnbc.com,investors.com&apiKey=${process.env.NEWS_API_KEY}`
-  );
-
   const transactions = await pool.query(
     'SELECT * FROM portifolio WHERE userid=$1 AND symbol=$2',
     [userId, symbol]
@@ -171,12 +167,31 @@ const getStockData = asyncHandler(async (req, res) => {
     id: uuidv4(),
     symbol,
     price: price.data[0].adjClose,
-    news: news.data.articles,
     transactions: transactions.rows,
     totalShares,
   };
 
   res.json(stockData);
+});
+
+//@desc get transactions by symbol
+//@route GET /api/stocks/symbol-headlines
+//@access public
+
+const getSymbolHeadlines = asyncHandler(async (req, res) => {
+  const symbol = req.params.symbol.toUpperCase();
+
+  const news = await axios.get(
+    `https://newsapi.org/v2/everything?q=${symbol}&language=en&domains=finance.yahoo.com,fool.com,cnbc.com,investors.com&apiKey=${process.env.NEWS_API_KEY}`
+  );
+
+  const symbolHeadlines = {
+    id: uuidv4(),
+    symbol,
+    news: news.data.articles,
+  };
+
+  res.json(symbolHeadlines);
 });
 
 //@desc get top headlines
@@ -232,4 +247,5 @@ module.exports = {
   getStockData,
   getTopHeadlines,
   getMarketSummary,
+  getSymbolHeadlines,
 };

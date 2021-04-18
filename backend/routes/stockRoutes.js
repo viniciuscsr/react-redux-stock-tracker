@@ -11,6 +11,7 @@ const {
   getStockData,
   getTopHeadlines,
   getMarketSummary,
+  getSymbolHeadlines,
 } = require('../controllers/stockControllers');
 
 router
@@ -28,5 +29,6 @@ router.route('/top-headlines').get(getTopHeadlines);
 router.route('/market-summary').get(getMarketSummary);
 
 router.route('/:symbol').get(isLoggedIn, getStockData);
+router.route('/:symbol/symbol-headlines').get(getSymbolHeadlines);
 
 module.exports = router;

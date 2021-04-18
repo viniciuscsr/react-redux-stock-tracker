@@ -33,18 +33,18 @@ const StockDetailsScreen = ({ match }) => {
 
   return (
     <>
+      <h1 className='text-center'>{symbol}</h1>
+      <Row>
+        <TradingViewWidget
+          className='trading-view-graph'
+          symbol={symbol}
+          style='2'
+        />
+      </Row>
       {loading && <Loader />}
       {error && <Message>{error}</Message>}
       {data.id && (
         <>
-          <h1 className='text-center'>{data.symbol}</h1>
-          <Row>
-            <TradingViewWidget
-              className='trading-view-graph'
-              symbol={symbol}
-              style='2'
-            />
-          </Row>
           <Row className='my-5'>
             <Col>
               <div className='text-center border border-success mx-5 rounded'>
