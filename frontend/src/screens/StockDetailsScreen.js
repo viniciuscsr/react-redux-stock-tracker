@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import TradingViewWidget from 'react-tradingview-widget';
+import useRequest from '../hooks/useRequest';
 import {
   listTransactions,
   deleteTransaction,
@@ -15,8 +16,22 @@ const StockDetailsScreen = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const transactionList = useSelector((state) => state.transactionList);
-  const { loading, data, error } = transactionList;
+  const {
+    data: articles,
+    loading: articlesLoading,
+    error: articlesError,
+  } = useRequest(`/api/stocks/${symbol}/symbol-headlines`);
+
+  // const transactionList = useSelector((state) => state.transactionList);
+
+  const {
+    userLogin: { userInfo },
+  } = useSelector((state) => state.userLogin);
+
+  const { loading, data, error } = useRequest(
+    `/api/stocks/${symbol}`,
+    userInfo
+  );
 
   const transactionDelete = useSelector((state) => state.transactionDelete);
   const { success } = transactionDelete;
@@ -104,8 +119,10 @@ const StockDetailsScreen = ({ match }) => {
           )}
           <h2>Related News</h2>
           <CardColumns>
-            {data.news.length > 0 ? (
-              data.news.slice(0, 6).map((story, index) => (
+            {articlesLoading && <Loader />}
+            {articlesError && <Message>{articlesError}</Message>}
+            {Object.entries(articles).length !== 0 ? (
+              articles.news.slice(0, 6).map((story, index) => (
                 <Card key={index} style={{ height: '28rem' }}>
                   <Card.Img
                     variant='top'

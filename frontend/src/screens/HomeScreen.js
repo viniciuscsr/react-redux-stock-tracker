@@ -48,16 +48,16 @@ const HomeScreen = () => {
           <Carousel className='carousel mb-3'>
             {articles.slice(0, 3).map((article, index) => {
               return (
-                <Carousel.Item key={index} className='carousel-item'>
-                  <div className='image-wrapper'>
-                    <div className='img-overlay'></div>
+                <Carousel.Item key={index} className='carousel__item'>
+                  <div className='carousel__image-wrapper'>
+                    <div className='carousel__img-overlay'></div>
                     <img
-                      className='d-block w-100 carousel-image img-fluid'
+                      className='carousel__image d-block w-100 img-fluid'
                       src={article.urlToImage}
                       alt='First slide'
                     />
                   </div>
-                  <Carousel.Caption className='carousel-caption'>
+                  <Carousel.Caption className='carousel__caption'>
                     <a href={article.url} target='_blank' rel='noreferrer'>
                       <h3>{article.title}</h3>
                     </a>

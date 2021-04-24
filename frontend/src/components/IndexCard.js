@@ -9,23 +9,21 @@ const IndexCard = ({
   percentagePriceVariation,
 }) => {
   return (
-    <Col xs={12} md={6} lg={3} className='index-card-col'>
+    <Col xs={12} md={6} lg={3} className='index-card__col'>
       <div className='index-card'>
         <LinkContainer to={`/stock/${symbol}`}>
-          <a href='/' className='symbol-link'>
-            {symbol}
-          </a>
+          <a href='/'>{symbol}</a>
         </LinkContainer>
         <div>
-          <h5 className='mx-2'>{price}</h5>
-          <h6 className='mx-2'>
+          <h5 className='index-card__price mx-2'>{price}</h5>
+          <h6 className='index-card__performance mx-2'>
             {nominalVariation > 0 ? (
-              <span className='positive-performance'>
+              <span className='index-card__performance--positive'>
                 {'+' + nominalVariation} <i className='fas fa-caret-up'></i>{' '}
                 {'(' + percentagePriceVariation + '%' + ')'}
               </span>
             ) : (
-              <span className='negative-performance'>
+              <span className='index-card__performance--negative'>
                 {nominalVariation} <i className='fas fa-caret-down'></i>{' '}
                 {'(' + percentagePriceVariation + '%' + ')'}
               </span>
